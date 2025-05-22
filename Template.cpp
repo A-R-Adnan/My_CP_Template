@@ -1,7 +1,3 @@
-
-                                  // ASSALAMU_ALAIKOM  //
-                  //The Author Of This Template is : A_R_Adnan (Abdur Rahman Adnan)  //
-
 #include<bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -79,10 +75,10 @@ bool cmp(pair<ll, ll> &a, pair<ll, ll> &b)
       return (a.second > b.second);
    return 0;
 }
-// ll mod(ll a,ll b)
-// {
-//    return ((a%b)+b)%b;
-// }
+ll amodb(ll a,ll b)
+{
+   return ((a%b)+b)%b;
+}
 ll log_a_to_base_b(ll a, ll b)
 {
    return log2(a) / log2(b);
@@ -97,7 +93,6 @@ bool power_of_2(ll x)
 {
    return x && !(x & (x - 1));
 }
-#define endl '\n'
 ll GCD(ll x, ll y)
 {
    if (y == 0)
@@ -282,7 +277,7 @@ vector<ll> sieve(ll n)
    return p_list;
 }
 vector<vll> adj;
-vll vis, color;
+vll vis,color;
 void dfs(ll node)
 {
    vis[node] = 1;
@@ -399,8 +394,25 @@ void bfs(ll s)
       }
    }
 }
-ll n,m;
-void TopSort()  // Topological Sort
+
+void Allsubset(vll &v,ll n)
+{
+   vll tmp;
+   for(ll mask=1;mask<(1<<sz(v));mask++)
+   {
+      for(ll i=0;i<sz(v);i++)
+      {
+         if(mask&(1<<i))
+         {
+            cout<<v[i]<<" ";
+         }
+      }
+      cout<<endl;
+   }
+   return;
+}
+
+void TopSort(ll n)  // Topological Sort
 {
    vll res;
    priority_queue<ll,vector<ll>,greater<ll>>pq;
@@ -422,7 +434,7 @@ void TopSort()  // Topological Sort
    }
    print(res);
 }
-// Define a custom hash function for std::pair<any type> ste::vector<any type>
+// Define a custom hash function for std::pair<any type> std::vector<any type>
 //now we can use pair<any tpe>,vector<any type> in unordered_set and unordered_map but we have to use a extra argument as CustomHash
 //unordered_set<pll,CustomHash>st; st.insert(pair<long long, long long);
 //unorderd_map<pll,ll,CustomHash>mp; mp[pll]++;
@@ -455,10 +467,25 @@ void OJ()
    freopen("E:\\VS_C++\\Erron.txt", "w", stderr);
 #endif
 }
+ll tc;
+
+void solve()
+{
+   
+   return ;
+}
+
 int main()
 {
    OJ();
    ASSALAMU_ALAIKOM
-
+   clock_t start= clock();
+   ll t=1;
+   cin>>t;
+   for(tc=1;tc<=t;tc++)
+   {
+      solve();
+   }
+   cerr << "Run Time : " <<((double)(clock() - start) / CLOCKS_PER_SEC)<< " seconds"<<endl;
    return 0;
 }
