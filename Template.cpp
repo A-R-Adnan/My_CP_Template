@@ -1,9 +1,10 @@
-#include<bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
+#include "bits/stdc++.h"
+#include "ext/pb_ds/assoc_container.hpp"
+#include "ext/pb_ds/tree_policy.hpp"
 using namespace std;
 using namespace __gnu_pbds;
-#define pbds tree<ll, null_type, less_equal<ll>, rb_tree_tag, tree_order_statistics_node_update>
+
+#define pbds tree<pair<ll,ll>, null_type, less<pair<ll,ll>>, rb_tree_tag, tree_order_statistics_node_update>
 // A.order_of_key(x)   *A.find_by_order(x)
 // less->sorted in ascending order and unique, greater->sorted in descending order and unique
 // less_equal-> it will work as multiset and in ascending order, greater_equal->same as multiset in descending order 
@@ -31,7 +32,7 @@ typedef long long ll;
 const ll inf = 1e18;
 const ll minf = -1e18;
 const ll mod = 1e9+7;
-#define eps 1e-12
+#define eps 1e-9
 const double PI = acos(-1);
 #define fit for(auto u:(x))
 #define Max(x)  *max_element (all(x))
@@ -39,453 +40,160 @@ const double PI = acos(-1);
 #define PI 2*acos(0)
 #define pob pop_back
 #define set_bits(n) __builtin_popcountll(n)
-//set_intersection(all(v1), all(v2), back_inserter(v));
-//set_union(all(v1), all(v2), back_inserter(v));
-//set_difference(all(v1), all(v2), back_inserter(v));
-#define endl '\n'
-//a%m is equivalent to ((a%m)+m)%m -->(it will work for both negative and positive value)
-//debugging code segment
-#ifndef ONLINE_JUDGE
-#define dbg(x) cerr << #x <<" "; _print(x); cerr << endl;
-#else
-#define dbg(x)
+
+#ifndef DeBuG
+	#define dbg(...)	
 #endif
-void _print(ll t) {cerr << t;}
-void _print(int t) {cerr << t;}
-void _print(string t) {cerr << t;}
-void _print(char t) {cerr << t;}
-void _print(ld t) {cerr << t;}
-void _print(double t) {cerr << t;}
-void _print(ull t) {cerr << t;}
-template <class T, class V> void _print(pair <T, V> p);
-template <class T> void _print(vector <T> v);
-template <class T> void _print(set <T> v);
-template <class T, class V> void _print(map <T, V> v);
-template <class T> void _print(multiset <T> v);
-template <class T, class V> void _print(pair <T, V> p) {cerr << "{"; _print(p.F); cerr << ","; _print(p.S); cerr << "}";}
-template <class T> void _print(vector <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(set <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T> void _print(multiset <T> v) {cerr << "[ "; for (T i : v) {_print(i); cerr << " ";} cerr << "]";}
-template <class T, class V> void _print(map <T, V> v) {cerr << "[ "; for (auto i : v) {_print(i); cerr << " ";} cerr << "]";}
-bool cmp(pair<ll, ll> &a, pair<ll, ll> &b)
-{
-   if (a.first > b.first)
-      return 1;
-   else if (a.first == b.first)
-      return (a.second > b.second);
-   return 0;
-}
-ll amodb(ll a,ll b)
-{
-   return ((a%b)+b)%b;
-}
-ll log_a_to_base_b(ll a, ll b)
-{
-   return log2(a) / log2(b);
-}
-void printBinary(ll num)
-{
-   for (ll i = 63; i >= 0; i--)
-      cout << ((num >> i) & 1);
-   cout << endl;
-}
-bool power_of_2(ll x)
-{
-   return x && !(x & (x - 1));
-}
-ll GCD(ll x, ll y)
-{
-   if (y == 0)
-      return x;
-   else
-      return GCD(y, x % y);
-}
-ll LCM(ll x, ll y)
-{
-   return (x * y / (GCD(x, y)));
-}
-ll modAdd(ll a, ll b, ll m)
-{
-   return (a % m + b % m) % m;
-}
-ll modSub(ll a, ll b, ll m)
-{
-   return ((a % m ) - (b % m) + m) % m;
-}
-ll modMul(ll a, ll b, ll m)
-{
-   return ((a % m) * (b % m)) % m;
-}
-ll power(ll a, ll n)
-{
-   ll ans = 1;
-   while (n)
-   {
-      if (n & 1)
-      {
-         ans = ans * a;
-         n--;
-      }
-      a *= a;
-      n /= 2;
-   }
-   return ans;
-}
-ll modPower(ll a, ll n, ll mod)
-{
-   ll ans = 1;
-   while (n)
-   {
-      if (n & 1)
-      {
-         ans = ((ans % mod) * (a % mod)) % mod;
-         n--;
-      }
-      a = ((a % mod) * (a % mod)) % mod;
-      n /= 2;
-   }
-   return ans;
-}
-ll modInv(ll a, ll mod)
-{
-   return modPower(a, mod - 2, mod);
-}
-ll modDiv(ll a, ll b, ll m)
-{
-   return modMul(a, modInv(b, m), m);
-}
-const ll N = 1e5+5;
-pll mod1={1e9+7,1e9+9},base={53,67}; // base should be greater than total distinct characters
-vpll pw(N+5), inv(N+5), PreHash(N+5),SuffHash(N+5);
-vll pr = {1000000007, 1000000009, 1000000021, 1000000033, 1000000087, 1000000093, 1000000097, 1000000103, 1000000123, 1000000181, 1000000207, 1000000223, 1000000241, 1000000271, 1000000289};
-vll bs = {31, 37, 53, 61, 67, 71};
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-long long get_random()
-{
-    return (long long)(rng());
-}
- 
-long long get_random_in_range(long long L, long long R)
-{
-    long long rndm = get_random();
-    return L + (rndm % (R - L + 1));
-}
- 
-void randomModBase()
-{
-    ll i = get_random_in_range(0, pr.size() - 1);
-    mod1.F = pr[i];
-    pr.erase(pr.begin() + i);
-    i = get_random_in_range(0, pr.size() - 1);
-    mod1.S = pr[i]; 
-    i = get_random_in_range(0, bs.size() - 1);
-    base.F = bs[i];
-    bs.erase(bs.begin() + i);
-    i = get_random_in_range(0, bs.size() - 1);
-    base.S = bs[i];
-}
 
-void preCal()
-{
-   pw[0].F = pw[0].S= 1;
-   for (ll i = 1; i < N; i++)
-   {
-      pw[i].F = modMul(pw[i - 1].F, base.F, mod1.F);
-      pw[i].S = modMul(pw[i - 1].S, base.S, mod1.S);
-   }
-   ll pw_inv1 = modInv(base.F, mod1.F);
-   ll pw_inv2 = modInv(base.S, mod1.S);
-   inv[0].F = inv[0].S = 1;
-   for (ll i = 1; i < N; i++)
-   {
-      inv[i].F = modMul(inv[i - 1].F, pw_inv1, mod1.F);
-      inv[i].S = modMul(inv[i - 1].S, pw_inv2, mod1.S);
-   }
-}
-void buildPreHash(const string& s)
-{
-   ll n = sz(s);
-   for (ll i = 0; i < n; i++)
-   {
-      PreHash[i].F = modAdd((i == 0) ? 0 : PreHash[i - 1].F, modMul(pw[i].F, s[i] - 'a' + 1, mod1.F),mod1.F);
-      PreHash[i].S = modAdd((i == 0) ? 0 : PreHash[i - 1].S, modMul(pw[i].S, s[i] - 'a' + 1, mod1.S),mod1.S);
-   }
-}
-void buildSuffHash(const string& s)
-{
-   ll n=sz(s);
-   ll ln=n-1;
-   for (ll i = ln; i >= 0; i--)
-   {
-      SuffHash[i].F = modAdd((i == ln) ? 0 : SuffHash[i + 1].F, modMul(pw[ln - i].F, s[i] - 'a' + 1, mod1.F), mod1.F);
-      SuffHash[i].S = modAdd((i == ln) ? 0 : SuffHash[i + 1].S, modMul(pw[ln - i].S, s[i] - 'a' + 1, mod1.S), mod1.S);
-   }
-}
-pll getPreHash(ll l, ll r)
-{
-   ll res1 = modSub(PreHash[r].F, (l == 0) ? 0 : PreHash[l - 1].F, mod1.F);
-   ll res2 = modSub(PreHash[r].S, (l == 0) ? 0 : PreHash[l - 1].S, mod1.S);
-   res1 = modMul(res1, inv[l].F, mod1.F);
-   res2 = modMul(res2, inv[l].S, mod1.S);
-   return {res1,res2};
-}
-pll getSuffHash(ll l, ll r,ll ln) //here ln is the last index(typically sz(s)-1) of the string.
-{
-   ll res1 = modSub(SuffHash[l].F, (r == ln) ? 0 : SuffHash[r + 1].F, mod1.F);
-   ll res2 = modSub(SuffHash[l].S, (r == ln) ? 0 : SuffHash[r + 1].S, mod1.S);
-   res1 = modMul(res1, inv[ln - r].F, mod1.F);
-   res2 = modMul(res2, inv[ln - r].S, mod1.S);
-   return {res1,res2};
-}
-ll double_cmp(double a, double b)
-{
-   if (fabs(a - b) <= eps)
-      return 0;
-   else
-      return a < b ? -1 : 1;
-}
-vector<bool> Sieve(ll n)
-{
-   vector<bool> prime(n + 1, true);
-   for (ll p = 2; p * p <= n; p++)
-   {
-      if (prime[p] == true)
-      {
-         for (ll i = p * p; i <= n; i += p)
-            prime[i] = false;
-      }
-   }
-   return prime;
-}
-vll p_list;
-vector<ll> sieve(ll n)
-{
-   vector<bool> prime(n + 1, true);
-   for (ll p = 2; p * p <= n; p++)
-   {
-      if (prime[p] == true)
-      {
-         for (ll i = p * p; i <= n; i += p)
-            prime[i] = false;
-      }
-   }
-   for (ll i = 2; i <= n; i++)
-   {
-      if (prime[i])
-         p_list.pb(i);
-   }
-   return p_list;
-}
-vector<vll> adj;
-vll vis,color;
-void dfs(ll node)
-{
-   vis[node] = 1;
-   cout << node << " ";
-   for (auto child : adj[node])
-   {
-      if (!vis[child])
-         dfs(child);
-   }
-}
-bool Is_Bipartite(ll node, ll clr)
-{
-   vis[node] = 1;
-   color[node] = clr;
-   for (auto child : adj[node])
-   {
-      if (!vis[child] && Is_Bipartite(child, clr ^ 1) == false)
-         return false;
-      else if (color[node] == color[child])
-         return false;
-   }
-   return true;
-}
-bool Cycle(ll node, ll par)
-{
-   vis[node] = 1;
-   for (auto child : adj[node])
-   {
-      if (!vis[child] && Cycle(child, node))
-         return true;
-      else if (child != par)
-         return true;
-   }
-   return false;
-}
-vll Sub_sz;
-ll Sub_Tree_Sz(ll node)
-{
-   ll curr_sz = 1;
-   vis[node] = 1;
-   for (auto child : adj[node])
-   {
-      if (!vis[child])
-         curr_sz += Sub_Tree_Sz(child);
-   }
-   Sub_sz[node] = curr_sz;
-   return curr_sz;
-}
 
-ll timer = 0;
-vll in, low;
-void Bridge(ll node, ll par)
-{
-   vis[node] = 1;
-   in[node] = low[node] = timer++;
-   for (auto child : adj[node])
-   {
-      if (child == par)
-         continue; //direct parent
-      if (!vis[child])
-      {
-         //forward edge
-         Bridge(child, node);
-         low[node] = min(low[node], low[child]);
-         if (low[child] > in[node])
-            cout << node << " " << child <<"Is a Bridge"<< endl;
-      }
-      else
-         low[node] = min(low[node], in[child]); //back edge
-   }
-}
-
-void Cutpoint(ll node, ll par=-1) //articulation point
-{
-   vis[node] = 1;
-   in[node] = low[node] = timer++;
-   ll children = 0;
-   for (auto child : adj[node])
-   {
-      if (child == par)
-         continue; //direct parent
-      if (!vis[child])
-      {
-         //forward edge
-         Cutpoint(child, node);
-         low[node] = min(low[node], low[child]);
-         if (low[child] >= in[node] && par != -1)
-            cout << node << "Is a Cutpoint" << endl;
-         children++;
-      }
-      else
-         low[node] = min(low[node], in[child]); //back edge
-   }
-   if (par == -1 && children > 1)
-      cout << node << "Is a Cutpoint" << endl;
-}
-void bfs(ll s)
-{
-   queue<ll> q;
-   vis[s] = 1;
-   q.push(s);
-   while (!q.empty())
-   {
-      ll x = q.front();
-      cout << x << " ";
-      q.pop();
-      for (auto child : adj[x])
-      {
-         if (!vis[child])
-         {
-            vis[child] = 1;
-            q.push(child);
-         }
-      }
-   }
-}
-
-void Allsubset(vll &v,ll n)
-{
-   vll tmp;
-   for(ll mask=1;mask<(1<<sz(v));mask++)
-   {
-      for(ll i=0;i<sz(v);i++)
-      {
-         if(mask&(1<<i))
-         {
-            cout<<v[i]<<" ";
-         }
-      }
-      cout<<endl;
-   }
-   return;
-}
-
-void TopSort(ll n)  // Topological Sort
-{
-   vll res;
-   priority_queue<ll,vector<ll>,greater<ll>>pq;
-   ll i;
-   for(i=1;i<=n;i++)
-      if(in[i]==0)
-       pq.push(i);
-   while(!pq.empty())
-   {
-      ll x=pq.top();
-      res.pb(x);
-      pq.pop();
-      for(auto node:adj[x])
-      {
-         in[node]--;
-         if(in[node]==0)
-           pq.push(node);
-      }
-   }
-   print(res);
-}
-// Define a custom hash function for std::pair<any type> std::vector<any type>
-//now we can use pair<any tpe>,vector<any type> in unordered_set and unordered_map but we have to use a extra argument as CustomHash
-//unordered_set<pll,CustomHash>st; st.insert(pair<long long, long long);
-//unorderd_map<pll,ll,CustomHash>mp; mp[pll]++;
-struct CustomHash {
-    // Hash function for std::pair
-    template <typename T1, typename T2>
-    size_t operator()(const std::pair<T1, T2>& p) const {
-        size_t hash1 = std::hash<T1>()(p.first);
-        size_t hash2 = std::hash<T2>()(p.second);
-        // Combine the hashes
-        return hash1 ^ (hash2 << 1);
-    }
-
-    // Hash function for std::vector
-    template <typename T>
-    size_t operator()(const std::vector<T>& v) const {
-        size_t hash = 0;
-        for (const T& elem : v) {
-            hash ^= std::hash<T>()(elem) + 0x9e3779b9 + (hash << 6) + (hash >> 2);
-        }
-        return hash;
-    }
-};
-//input output and error file
-void OJ()
-{
-#ifndef ONLINE_JUDGE
-   freopen("E:\\VS_C++\\input.txt", "r", stdin);
-   freopen("E:\\VS_C++\\output.txt", "w+", stdout);
-   freopen("E:\\VS_C++\\Erron.txt", "w", stderr);
-#endif
-}
 ll tc;
+// (i & -i) eita i er LSB dei right most 1;
+void constructFTree(vll &tree)
+{
+    int n=sz(tree)-1;
+    for(int i=1;i<=n;i++)
+    {
+        int p=i+ (i & -i);
+        if(p<=n)
+         tree[p]+=tree[i];
+    }
+}
+
+void updatePointFTree(ll i, ll val,vll &tree)
+{
+    while(i<=sz(tree)-1)
+    {
+        tree[i]+=val;
+        i+=i&-i;
+    }
+}
+
+ll prefSumFTree(int i,vll &tree)
+{
+    ll sum=0;
+    while(i>0)
+    {
+        sum+=tree[i];
+        i-=i&-i;
+    }
+    return sum;
+}
+
+ll rangeSumFTree(int l,int r, vll &tree)
+{
+    return prefSumFTree(r,tree)-prefSumFTree(l-1,tree);
+}
+
+ll findKthFTree(ll k, vll &tree) //binary lifting(usually pbds diye kora jai)
+{
+    ll n=sz(tree)-1;
+    ll pos=0,sum=0,jump=1;
+    while(jump*2<=n)
+     jump*=2;
+    for(;jump>0;jump/=2)
+    {
+        ll next=pos+jump;
+        if(next<=n && tree[next]+sum<k)
+        {
+            sum+=tree[next];
+            pos=next;
+        }
+    }
+    return pos+1;
+}
+
+// void solve()
+// {
+//    ll n,q,i;
+//    cin>>n>>q;
+//    vll v,tree(1),salary(n+1);
+//    vector<pair<char,pair<ll,ll>>>qry;
+//    for(i=1;i<=n;i++)
+//    {
+//         cin>>salary[i];
+//         v.pb(salary[i]);
+//    }
+//    for(i=0;i<q;i++)
+//    {
+//      char ch;
+//      ll a,b;
+//      cin>>ch>>a>>b;
+//      if(ch=='!')
+//         v.pb(b);
+//      qry.pb({ch,{a,b}});
+//    }
+
+//    sort(all(v));
+//    v.erase(unique(all(v)),v.end());
+
+//    for(auto u:v)
+//      tree.pb(0);
+//     for(i=1;i<=n;i++)
+//     {
+//         int ind=lower_bound(all(v),salary[i])-v.begin()+1;
+//         tree[ind]++;
+//     }
+//    constructFTree(tree);
+//    for(i=0;i<q;i++)
+//    {
+//      if(qry[i].F=='!')
+//      {
+//         ll ind=lower_bound(all(v),salary[qry[i].S.F])-v.begin()+1;
+//         updatePointFTree(ind,-1,tree);
+//         ind=lower_bound(all(v),qry[i].S.S)-v.begin()+1;
+//         updatePointFTree(ind,1,tree);
+//         salary[qry[i].S.F]=qry[i].S.S;
+//      }
+//      else
+//      {
+//         int l=lower_bound(all(v),qry[i].S.F)-v.begin();
+//         int r=upper_bound(all(v),qry[i].S.S)-v.begin();
+//         // dbg(l,r,qry[i].S.F,qry[i].S.S);
+//         cout<<rangeSumFTree(l+1,r,tree)<<endl;
+//      }
+//    }
+// }
 
 void solve()
 {
-   
-   return ;
+    ll n,q,i;
+    cin>>n>>q;
+    vll salary(n+1);
+    pbds st;
+    for(i=1;i<=n;i++)
+    {
+        cin>>salary[i];
+        st.insert({salary[i],i});
+    }
+    while(q--)
+    {
+        char ch;
+        ll a,b;
+        cin>>ch>>a>>b;
+        if(ch=='!')
+        {
+            st.erase({salary[a],a});
+            st.insert({b,a});
+            salary[a]=b;
+        }
+        else
+        {
+            ll right=st.order_of_key({b+1,0});
+            ll left=st.order_of_key({a,0});
+            cout<<right-left<<endl;
+        }
+    }
+    
 }
 
 int main()
 {
-   OJ();
    ASSALAMU_ALAIKOM
-   clock_t start= clock();
    ll t=1;
-   cin>>t;
+//    cin>>t;
    for(tc=1;tc<=t;tc++)
    {
       solve();
    }
-   cerr << "Run Time : " <<((double)(clock() - start) / CLOCKS_PER_SEC)<< " seconds"<<endl;
    return 0;
 }
